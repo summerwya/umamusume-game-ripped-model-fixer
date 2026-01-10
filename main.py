@@ -1,42 +1,56 @@
 import bpy
 import re
 
-obj = bpy.context.active_object
-previous_mode = obj.mode # Store current edit more so we can restore it later
+armature = bpy.context.active_object
+previous_mode = armature.mode
 
 # Check if current selected object is an armature
-if not obj or obj.type != 'ARMATURE':
+if not armature or armature.type != 'ARMATURE':
     raise TypeError("Active object is not an armature.")
 
 # Switch to edit mode
 bpy.ops.object.mode_set(mode='EDIT')
 
-def delete_useless_bones(obj):
-    case_insensitive_pattern = re.compile('_handle', re.IGNORECASE)
-    # case_sensitive_pattern = re.compile('')
+def delete_useless_bones(armature):
+    # TODO - Optimize regex
+    # TODO - Investigate if _Handles should be removed
+    pattern = re.compile(r'Sp_(Hi|So)_.*0_[RL]_01|Sp_He_Ear0_[RL]_02|Sp_Ch_Collar0_[RL]_01|Sp_He_Hair2_[RL]_04|Sp_Hi_CSkirt[01]_([RL]|[FB][RL]|[FB][RL][RL])_0[12]|_Handle$')
+    dont_delete = ['Sp_Hi_CSkirt0_FLL_01', 'Sp_Hi_CSkirt0_FRR_01']
     
-    edit_bones = obj.data.edit_bones
-    bones_to_delete = [bone for bone in edit_bones if case_insensitive_pattern.search(bone.name)]
+    edit_bones = armature.data.edit_bones
+    bones_to_delete = [bone for bone in edit_bones if bone.name not in dont_delete and pattern.search(bone.name)]
     
     for bone in bones_to_delete:
         edit_bones.remove(bone)
     
     print(f'Deleted {len(bones_to_delete)} bones')
 
-def correct_bone_names(obj):
-    pass # TODO - Implement this function
+def correct_bone_names(armature):
+    pass # TODO - Use a csv file
 
-def correct_finger_bone_rotation(obj):
-    pass # TODO - Implement this function
+def correct_finger_bone_rotation(armature):
+    pass # TODO - Just rotate the fingers a bit instead of making them pointed directly up
 
-def hide_face_bones(obj):
-    pass # TODO - Hide face bones because they're all too detailed
+def hide_face_bones(armature):
+    pattern = re.compile('Eye_|Eyebrow_|Mouth_|Tooth_')
+    
+    # Hide in edit mode
+    for bone in armature.data.edit_bones:
+        if pattern.search(bone.name):
+            bone.hide = True
+    
+    bpy.ops.object.mode_set(mode='POSE')
+    # Hide in pose/object mode
+    for bone in armature.data.bones:
+        if pattern.search(bone.name):
+            armature.data.bones[bone.name].hide = True
+            
 
 # Start the cleaning process
-delete_useless_bones(obj)
-correct_bone_names(obj)
-correct_finger_bone_rotation(obj)
-hide_face_bones(obj)
+delete_useless_bones(armature)
+hide_face_bones(armature)
+correct_bone_names(armature)
+correct_finger_bone_rotation(armature)
 
 # Restore previous mode
 bpy.ops.object.mode_set(mode=previous_mode)
