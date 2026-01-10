@@ -28,7 +28,7 @@ def hide_useless_bones(armature):
         r'Sp_Ch_Collor_[RL]_01',
         r'_attach$',
 
-        # Bones that deform but uncecessary
+        # Bones that deform but unnecessary
         r'^Eyelashes_[LR]$',
         r'^Eye.*',
         r'^Cheek_[RL]$',
@@ -70,14 +70,24 @@ def add_and_fix_IK(armature):
     pass # TODO - Add leg IK, foot IK, and add bones? This is one of the most important parts
 
 def hide_extra_eyebrows(armature):
-    all_attributes = dir(armature.pose.bones['Eye_L'])
-    for attr in all_attributes:
-        print(attr)
+    # TODO - Figure out why this doesn't work when Morph is set under Model Setup
+    for child in armature.children:
+        if not child.name.endswith('_mesh'):
+            continue
+        
+        keys = child.data.shape_keys.key_blocks
+        
+        name_R = 'EyeBrow_23_R(Offset_L)[M_Mayu]'
+        name_L = 'EyeBrow_24_L(Offset_R)[M_Mayu]'
+        
+        keys[name_R].value = keys[name_R].slider_max
+        keys[name_L].value = keys[name_L].slider_max
 
 # Start the cleaning process
 print('Started')
 hide_useless_bones(armature)
 add_and_fix_IK(armature)
+hide_extra_eyebrows(armature)
 correct_bone_names(armature)
 correct_finger_bone_rotation(armature)
 
