@@ -1,3 +1,5 @@
+# By summerwya, 
+
 import bpy
 import re
 
@@ -54,6 +56,8 @@ def hide_useless_bones(armature):
 def correct_bone_names(armature): # TODO - MOST IMPORTANT function, read from CSV file for correct bone names
     # Blender name -> JP, EN
     translation: dict[str, tuple[str, str]] = {}
+    
+    print('Correcting bone names')
     for bone in armature.pose.bones:
         if bone.name not in translation:
             continue
@@ -70,10 +74,10 @@ def add_and_fix_IK(armature):
     pass # TODO - Add leg IK, foot IK, and add bones? This is one of the most important parts
 
 def hide_extra_eyebrows(armature):
-    # TODO - Figure out why this doesn't work when Morph is set under Model Setup
     for child in armature.children:
         if not child.name.endswith('_mesh'):
             continue
+        print('Hiding extra eyebrows')
         
         keys = child.data.shape_keys.key_blocks
         
@@ -82,11 +86,46 @@ def hide_extra_eyebrows(armature):
         
         keys[name_R].value = keys[name_R].slider_max
         keys[name_L].value = keys[name_L].slider_max
+        return
+    
+    print('Mesh not found')
+
+def fix_eyes(armature):
+    """Updates min and max morph values for X/Y eye offsets"""
+    
+    for child in armature.children:
+        if not child.name.endswith('_mesh'):
+            continue
+        
+        print('Fixing eyes')    
+        keys = child.data.shape_keys.key_blocks
+        
+        name_XR = 'Eye_20_R(XRange)[M_Face]'
+        name_XL = 'Eye_20_L(XRange)[M_Face]'
+        
+        name_YR = 'Eye_21_R(YRange)[M_Face]'
+        name_YL = 'Eye_21_L(YRange)[M_Face]'
+        
+        keys[name_XR].slider_min = -1.5
+        keys[name_XR].slider_max = 1.9
+        
+        keys[name_XL].slider_min = -2.6
+        keys[name_XL].slider_max = 1.8
+        
+        keys[name_YR].slider_min = -1.8
+        keys[name_YR].slider_max = 2
+        
+        keys[name_YL].slider_min = -1.7
+        keys[name_YL].slider_max = 1.6
+        return
+    
+    print('mesh not found')
 
 # Start the cleaning process
 print('Started')
 hide_useless_bones(armature)
 add_and_fix_IK(armature)
+fix_eyes(armature)
 hide_extra_eyebrows(armature)
 correct_bone_names(armature)
 correct_finger_bone_rotation(armature)
