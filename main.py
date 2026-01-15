@@ -1,4 +1,4 @@
-# By summerwya, 
+# By summerwya, https://github.com/summerwya/umamusume-game-ripped-model-fixer
 
 import bpy
 import re
@@ -29,6 +29,14 @@ def hide_useless_bones(armature):
         r'^M_Line',
         r'Sp_Ch_Collor_[RL]_01',
         r'_attach$',
+        r'^Sp_He_Ear0_[RL]_01$',
+        
+        # Taken from GoldShip
+        r'MSkirt0_[RL]_02$',
+        r'MSkirt0_[BF][RL]_02$',
+        r'MSkirt0_[BF][RL][RL]_02$',
+        r'MSkirt0_[BF]_02$',
+        r'MSkirt0_BR_02$',
 
         # Bones that deform but unnecessary
         r'^Eyelashes_[LR]$',
@@ -41,12 +49,17 @@ def hide_useless_bones(armature):
     dont_hide_these = list(map(re.compile, [
         r'CSkirt\d_[RL]_\d+$',
         r'Sp_He_Hair2_[RL]_01$',
-        r'^Eye_[RL]$'
+        r'^Eye_[RL]$',
+        r'MSkirt.+_01$',
+        r'MSkirt0_B[RL]_02$'
+    ]))
+    override_hide = list(map(re.compile, [
+        
     ]))
     
     bpy.ops.object.mode_set(mode='POSE')
     for bone in armature.data.bones:
-        if any(r.search(bone.name) for r in dont_hide_these):
+        if any(r.search(bone.name) for r in dont_hide_these) and not any(r.search(bone.name) for r in override_hide):
             continue
         
         if any(pattern.search(bone.name) for pattern in hide_these):
