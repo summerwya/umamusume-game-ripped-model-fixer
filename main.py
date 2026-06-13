@@ -22,7 +22,6 @@ def hide_useless_bones(armature):
         r'Sp_He_Ear0_[RL]_02',
         r'Sp_Ch_Collar0_[RL]_01',
     
-    
         r'^Sp_He_Acc0_[RL]_01$',
         r'_Handle$',
         r'^Wrist_[RL]_',
@@ -47,11 +46,11 @@ def hide_useless_bones(armature):
         r'^Tooth_',
     ]))
     dont_hide_these = list(map(re.compile, [
-        r'CSkirt\d_[RL]_\d+$',
+        r'.*CSkirt\d_[RL]_\d+$',
         r'Sp_He_Hair2_[RL]_01$',
         r'^Eye_[RL]$',
-        r'MSkirt.+_01$',
-        r'MSkirt0_B[RL]_02$'
+        r'.*MSkirt\d_[BF][RL]_0[12]$',
+        r'.*Belt\d_[RL]_0[12]$',
         r'.*Hair4_[CRL]'
     ]))
     override_hide = list(map(re.compile, [
@@ -138,7 +137,6 @@ def fix_eyes(armature):
 # Start the cleaning process
 print('Started')
 hide_useless_bones(armature)
-# Removed becuase this script is now to be used with https://github.com/XiaoFFGe/MikuMikuRig
 #add_and_fix_IK(armature)
 #fix_eyes(armature)
 try:
