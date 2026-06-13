@@ -17,18 +17,18 @@ bpy.ops.object.mode_set(mode='EDIT')
 def hide_useless_bones(armature):
     # TODO - Optimize regex
     hide_these = list(map(re.compile, [
-        r'Sp_He_Hair\d_[RL]_0[12]',
+    
         r'Sp_(Hi|So)_.*0_[RL]_01',
         r'Sp_He_Ear0_[RL]_02',
         r'Sp_Ch_Collar0_[RL]_01',
-        r'Sp_He_Hair2_[RL]_04',
-        r'^Sp_He_Hair0_C_01$',
+    
+    
         r'^Sp_He_Acc0_[RL]_01$',
         r'_Handle$',
         r'^Wrist_[RL]_',
         r'^M_Line',
         r'Sp_Ch_Collor_[RL]_01',
-        r'_attach$',
+        r'_attach(_[RL])?$',
         r'^Sp_He_Ear0_[RL]_01$',
         
         # Taken from GoldShip
@@ -52,6 +52,7 @@ def hide_useless_bones(armature):
         r'^Eye_[RL]$',
         r'MSkirt.+_01$',
         r'MSkirt0_B[RL]_02$'
+        r'.*Hair4_[CRL]'
     ]))
     override_hide = list(map(re.compile, [
         
@@ -137,11 +138,15 @@ def fix_eyes(armature):
 # Start the cleaning process
 print('Started')
 hide_useless_bones(armature)
-add_and_fix_IK(armature)
-fix_eyes(armature)
-hide_extra_eyebrows(armature)
-correct_bone_names(armature)
-correct_finger_bone_rotation(armature)
+# Removed becuase this script is now to be used with https://github.com/XiaoFFGe/MikuMikuRig
+#add_and_fix_IK(armature)
+#fix_eyes(armature)
+try:
+    hide_extra_eyebrows(armature)
+except Exception:
+    pass
+#correct_bone_names(armature)
+#correct_finger_bone_rotation(armature)
 
 # Restore previous mode
 bpy.ops.object.mode_set(mode=previous_mode)
