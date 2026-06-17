@@ -52,7 +52,7 @@ def hide_useless_bones(armature):
         r'^Eye_[RL]$',
         r'.*MSkirt\d_[BF][RL]_0[12]$',
         r'.*Belt\d_[RL]_0[12]$',
-        r'.*Hair4_[CRL]'
+#        r'.*Hair4_[CRL]'
     ]))
     override_hide = list(map(re.compile, [
         
