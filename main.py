@@ -51,6 +51,7 @@ def hide_useless_bones(armature):
         r'Sp_He_Hair2_[RL]_01$',
         r'^Eye_[RL]$',
         r'.*MSkirt\d_[BF][RL]_0[12]$',
+        r'.*MSkirt\d_[BF][RL][RL]_0[12]$',
         r'.*Belt\d_[RL]_0[12]$',
 #        r'.*Hair4_[CRL]'
     ]))
