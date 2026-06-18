@@ -31,12 +31,8 @@ def hide_useless_bones(armature):
         r'_Attach(_[RL])?$',
         r'^Sp_He_Ear0_[RL]_01$',
         
-        # Taken from GoldShip
-        r'MSkirt0_[RL]_02$',
-        r'MSkirt0_[BF][RL]_02$',
-        r'MSkirt0_[BF][RL][RL]_02$',
-        r'MSkirt0_[BF]_02$',
-        r'MSkirt0_BR_02$',
+        r'MSkirt0_[BFRL][RL]?[RL]?_03$',
+        r'Hair4_[BRLF]_03$',
 
         # Bones that deform but unnecessary
         r'^Eyelashes_[LR]$',
@@ -50,8 +46,8 @@ def hide_useless_bones(armature):
         r'.*CSkirt\d_[RL]_\d+$',
         r'Sp_He_Hair2_[RL]_01$',
         r'^Eye_[RL]$',
-        r'.*MSkirt\d_[BF][RL]_0[12]$',
-        r'.*MSkirt\d_[BF][RL][RL]_0[12]$',
+#        r'.*MSkirt\d_[BF][RL]?_0[12]$',
+        r'.*MSkirt\d_[BFRL][RL]?[RL]?_0[12]$',
         r'.*Belt\d_[RL]_0[12]$',
 #        r'.*Hair4_[CRL]'
     ]))
