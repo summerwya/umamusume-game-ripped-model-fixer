@@ -32,7 +32,6 @@ def hide_useless_bones(armature):
         r'^Sp_He_Ear0_[RL]_01$',
         
         r'MSkirt0_[BFRL][RL]?[RL]?_03$',
-        r'Hair4_[BRLF]_03$',
 
         # Bones that deform but unnecessary
         r'^Eyelashes_[LR]$',
