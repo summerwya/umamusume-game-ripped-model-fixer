@@ -22,7 +22,6 @@ def hide_useless_bones(armature):
         r'Sp_He_Ear0_[RL]_02',
         r'Sp_Ch_Collar0_[RL]_01',
     
-        r'^Sp_He_Acc0_[RL]_01$',
         r'_Handle$',
         r'^Wrist_[RL]_',
         r'^M_Line',
