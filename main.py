@@ -18,7 +18,7 @@ def hide_useless_bones(armature):
     # TODO - Optimize regex
     hide_these = list(map(re.compile, [
     
-        r'Sp_(Hi|So)_.*0_[RL]_01',
+        #r'Sp_(Hi|So)_.*0_[RL]_01',
         r'Sp_He_Ear0_[RL]_02',
         r'Sp_Ch_Collar0_[RL]_01',
     
